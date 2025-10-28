@@ -1,5 +1,6 @@
 type ColorType = {
   background: string;
+  foreground: string;
   textSolid: string;
   textSecondary: string;
   textSecondary2: string;
@@ -11,6 +12,7 @@ type ColorType = {
 export const colors: { light: ColorType; dark: ColorType } = {
   light: {
     background: '#F7F7F7',
+    foreground: '#9C9C9C',
     textSolid: '#000000',
     textSecondary: '#AEAEAE',
     textSecondary2: '#B3B3B3',
@@ -20,6 +22,7 @@ export const colors: { light: ColorType; dark: ColorType } = {
   },
   dark: {
     background: '#060503',
+    foreground: '#FFFFFF',
     textSolid: '#FFFFFF',
     textSecondary: '#AEAEAE',
     textSecondary2: '#B3B3B3',

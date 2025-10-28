@@ -15,7 +15,7 @@ export type BottomTabParamList = {
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<BottomTabParamList>;
-  Notifications: undefined;
+  Notifications: { date: string };
 };
 
 export type NavigationScreenProps<T extends keyof RootStackParamList> =
