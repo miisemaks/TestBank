@@ -14,13 +14,17 @@ import { Chats } from 'screens/chats/chats';
 import { Notifications } from 'screens/notifications';
 import {
   Alarm,
+  ChevronLeft,
   HomeIcon,
   InvestingAndBanking,
   PieChart,
+  Readed,
   TwoBubble,
 } from 'shared/icons';
 import { colors } from 'shared/styles/colors';
 import { useAppStore } from 'shared/store';
+import { TouchableOpacity } from 'react-native';
+import { fonts } from 'shared/styles/font';
 
 export const Stack = createNativeStackNavigator<RootStackParamList>();
 export const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -84,9 +88,30 @@ const BottomNavigator = () => {
 };
 
 export const Navigation = () => {
+  const { theme_value } = useAppStore();
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: colors[theme_value].container,
+          },
+          headerShadowVisible: false,
+          contentStyle: {
+            backgroundColor: colors[theme_value].container,
+          },
+          headerTitleStyle: {
+            color: colors[theme_value].textSolid,
+            fontFamily: fonts.medium.fontFamily,
+            fontWeight: fonts.medium.fontWeight,
+          },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <ChevronLeft color={colors[theme_value].textSolid} />
+            </TouchableOpacity>
+          ),
+        })}
+      >
         <Stack.Screen
           name="Main"
           component={BottomNavigator}
@@ -94,7 +119,17 @@ export const Navigation = () => {
             headerShown: false,
           }}
         />
-        <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen
+          name="Notifications"
+          component={Notifications}
+          options={{
+            headerRight: () => (
+              <TouchableOpacity>
+                <Readed color={colors[theme_value].textSolid} />
+              </TouchableOpacity>
+            ),
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -7,6 +7,9 @@ type ColorType = {
   textSecondary3: string;
   accent: string;
   container: string;
+  danger: string;
+  warning: string;
+  skeleton: string;
 };
 
 export const colors: { light: ColorType; dark: ColorType } = {
@@ -19,6 +22,9 @@ export const colors: { light: ColorType; dark: ColorType } = {
     textSecondary3: '#F5EDED',
     accent: '#FE5900',
     container: '#D6D4D4',
+    danger: '#CC3F02',
+    warning: '#FF9332',
+    skeleton: '#3D3B3B',
   },
   dark: {
     background: '#060503',
@@ -29,5 +35,8 @@ export const colors: { light: ColorType; dark: ColorType } = {
     textSecondary3: '#616161',
     accent: '#FE5900',
     container: '#0F0F0F',
+    danger: '#CC3F02',
+    warning: '#FF9332',
+    skeleton: '#3D3B3B',
   },
 };

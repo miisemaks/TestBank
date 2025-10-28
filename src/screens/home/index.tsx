@@ -1,5 +1,11 @@
 import React, { useLayoutEffect } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  FlatList,
+  SectionList,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { QRCode, UserSingle } from 'shared/icons';
 import { useAppStore } from 'shared/store';
@@ -12,6 +18,8 @@ import { PlusBankCard } from './ui/PlusBankCard';
 import { ScreenButtons } from './ui/ScreenButtons';
 import { Expenses } from './ui/Expenses';
 import dayjs from 'dayjs';
+import { ExpenseItem } from 'shared/ui/ExpenseItem';
+import { CurrencyType } from 'shared/types';
 
 type Props = BottomTabScreenProps<'Home'>;
 
@@ -38,6 +46,64 @@ const cardsData: {
     last_card_number: '9081',
     type: 'virtual',
     balance: 14.71,
+  },
+];
+
+const data: {
+  title: string;
+  data: {
+    id: number;
+    avatar?: string | null;
+    name: string;
+    currency: CurrencyType;
+    type: 'subscription' | 'one-time';
+    expenses: number;
+    description: string;
+    created_at: string;
+  }[];
+}[] = [
+  {
+    title: 'Today',
+    data: [
+      {
+        id: 0,
+        avatar:
+          'https://images.ctfassets.net/xjcz23wx147q/iegram9XLv7h3GemB5vUR/0345811de2da23fafc79bd00b8e5f1c6/Max_Rehkopf_200x200.jpeg',
+        name: 'Matthew Billson',
+        currency: 'dollar',
+        type: 'one-time',
+        expenses: 56.19,
+        description: 'Money Transfer',
+        created_at: dayjs('2025-06-09 12:08').toISOString(),
+      },
+    ],
+  },
+  {
+    title: 'Yesterday',
+    data: [
+      {
+        id: 1,
+        avatar:
+          'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/250px-Starbucks_Corporation_Logo_2011.svg.png',
+        name: 'Starbucks',
+        currency: 'dollar',
+        type: 'one-time',
+        expenses: 122.47,
+        description: 'Food',
+        created_at: dayjs('2025-06-08 19:21').toISOString(),
+      },
+      {
+        id: 2,
+        avatar:
+          'https://images.ctfassets.net/4cd45et68cgf/Rx83JoRDMkYNlMC9MKzcB/2b14d5a59fc3937afd3f03191e19502d/Netflix-Symbol.png?w=700&h=456',
+        name: 'Netflix',
+        currency: 'dollar',
+        type: 'subscription',
+        expenses: 13.17,
+        description: 'Entertainment',
+        created_at: dayjs('2025-06-08 08:53').toISOString(),
+      },
+    ],
   },
 ];
 
@@ -86,7 +152,8 @@ export const Home = (props: Props) => {
   }, [insets.left, insets.right, insets.top, navigation, theme_value]);
 
   return (
-    <View
+    <SectionList
+      sections={data}
       style={[
         styles.main,
         {
@@ -95,43 +162,75 @@ export const Home = (props: Props) => {
           paddingRight: insets.right,
         },
       ]}
-    >
-      <ScreenButtons
-        onPressTravel={() => {}}
-        onPressDelivery={() => {}}
-        onPressBonuses={() => {}}
-        onPressSupport={() => {}}
-      />
-      <Expenses
-        expenses={5091}
-        onPress={() =>
-          navigation.navigate('Notifications', { date: dayjs().toISOString() })
-        }
-      />
-      <FlatList
-        data={cardsData}
-        keyExtractor={item => item.id + ''}
-        renderItem={({ item }) => (
-          <BankCard
-            payment_system={item.payment_system}
-            variant={item.type}
-            last_card_number={item.last_card_number}
-            currency={item.currency}
-            balance={item.balance}
+      contentContainerStyle={{ gap: 4 }}
+      ListHeaderComponent={
+        <View style={{ gap: 24, marginBottom: 32 }}>
+          <ScreenButtons
+            onPressTravel={() => {}}
+            onPressDelivery={() => {}}
+            onPressBonuses={() => {}}
+            onPressSupport={() => {}}
           />
-        )}
-        style={styles.flatStyle}
-        contentContainerStyle={styles.flatContentStyle}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        ListFooterComponent={
-          <PlusBankCard
-            bank_card_length={cardsData.length}
+          <FlatList
+            data={cardsData}
+            keyExtractor={item => item.id + ''}
+            renderItem={({ item }) => (
+              <BankCard
+                payment_system={item.payment_system}
+                variant={item.type}
+                last_card_number={item.last_card_number}
+                currency={item.currency}
+                balance={item.balance}
+              />
+            )}
+            style={styles.flatStyle}
+            contentContainerStyle={styles.flatContentStyle}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            ListFooterComponent={
+              <PlusBankCard
+                bank_card_length={cardsData.length}
+                onPress={() => {}}
+              />
+            }
+          />
+          <Expenses
+            expenses={5091}
+            onPress={() =>
+              navigation.navigate('Notifications', {
+                date: dayjs().toISOString(),
+              })
+            }
+          />
+        </View>
+      }
+      keyExtractor={(item, index) => index + ''}
+      renderItem={({ item }) => (
+        <View
+          style={{
+            // INFO: отступы добавил по отдельности чтобы в контейнере карт горизотальный скрол не обрезался
+            // INFO: в самом компоненте не добавил так как если компонент будет переиспользоваться не включался отступ
+            paddingHorizontal: 16,
+          }}
+        >
+          <ExpenseItem
+            currency={item.currency}
+            expenses={item.expenses}
+            sender_name={item.name}
+            description="Money Transfer"
+            date={item.created_at}
+            avatar={item.avatar}
+            type={item.type}
             onPress={() => {}}
           />
-        }
-      />
-    </View>
+        </View>
+      )}
+      renderSectionHeader={({ section }) => (
+        <View>
+          <Text>{section.title}</Text>
+        </View>
+      )}
+    />
   );
 };
 

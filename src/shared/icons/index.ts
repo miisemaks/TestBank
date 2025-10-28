@@ -11,3 +11,5 @@ export * from './Support';
 export * from './MasterCard';
 export * from './Visa';
 export * from './Plus';
+export * from './ChevronLeft';
+export * from './Readed';
