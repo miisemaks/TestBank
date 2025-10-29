@@ -13,9 +13,15 @@ export type BottomTabParamList = {
   Chats: undefined;
 };
 
+export type NotificationScreenType =
+  | 'payments'
+  | 'delivery'
+  | 'travel'
+  | 'system';
+
 export type RootStackParamList = {
   Main: NavigatorScreenParams<BottomTabParamList>;
-  Notifications: { date: string };
+  Notifications: { date: string; type: NotificationScreenType };
 };
 
 export type NavigationScreenProps<T extends keyof RootStackParamList> =

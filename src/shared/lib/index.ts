@@ -1,4 +1,6 @@
-export const currencySymbol = (variant: 'dollar' | 'euro' | 'ruble') => {
+import { CurrencyType } from 'shared/types';
+
+export const currencySymbol = (variant: CurrencyType) => {
   switch (variant) {
     case 'dollar':
       return '$';

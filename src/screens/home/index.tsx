@@ -166,10 +166,30 @@ export const Home = (props: Props) => {
       ListHeaderComponent={
         <View style={{ gap: 24, marginBottom: 32 }}>
           <ScreenButtons
-            onPressTravel={() => {}}
-            onPressDelivery={() => {}}
-            onPressBonuses={() => {}}
-            onPressSupport={() => {}}
+            onPressTravel={() =>
+              navigation.navigate('Notifications', {
+                date: dayjs().toISOString(),
+                type: 'travel',
+              })
+            }
+            onPressDelivery={() =>
+              navigation.navigate('Notifications', {
+                date: dayjs().toISOString(),
+                type: 'delivery',
+              })
+            }
+            onPressBonuses={() =>
+              navigation.navigate('Notifications', {
+                date: dayjs().toISOString(),
+                type: 'system',
+              })
+            }
+            onPressSupport={() =>
+              navigation.navigate('Notifications', {
+                date: dayjs().toISOString(),
+                type: 'system',
+              })
+            }
           />
           <FlatList
             data={cardsData}
@@ -194,14 +214,7 @@ export const Home = (props: Props) => {
               />
             }
           />
-          <Expenses
-            expenses={5091}
-            onPress={() =>
-              navigation.navigate('Notifications', {
-                date: dayjs().toISOString(),
-              })
-            }
-          />
+          <Expenses expenses={5091} onPress={() => {}} />
         </View>
       }
       keyExtractor={(item, index) => index + ''}

@@ -11,7 +11,7 @@ import { Payments } from 'screens/payments';
 import { History } from 'screens/history';
 import { Analytics } from 'screens/analytics';
 import { Chats } from 'screens/chats/chats';
-import { Notifications } from 'screens/notifications';
+import { Notifications } from './Notifications';
 import {
   Alarm,
   ChevronLeft,
