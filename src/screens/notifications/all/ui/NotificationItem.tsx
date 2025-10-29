@@ -63,7 +63,7 @@ export const NotificationItem = (props: Props) => {
 
   return (
     <View style={styles.main}>
-      <Avatar size={42} url={avatar} />
+      <Avatar size={42} style={{ borderRadius: 16 }} url={avatar} />
       <View style={styles.viewRight}>
         <View style={styles.viewTop}>
           <View style={styles.viewTitle}>

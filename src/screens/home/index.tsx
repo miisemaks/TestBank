@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from 'react';
 import {
   FlatList,
+  RefreshControl,
   SectionList,
   StyleSheet,
   TouchableOpacity,
@@ -17,9 +18,9 @@ import { Text } from 'shared/ui/Text';
 import { PlusBankCard } from './ui/PlusBankCard';
 import { ScreenButtons } from './ui/ScreenButtons';
 import { Expenses } from './ui/Expenses';
-import dayjs from 'dayjs';
 import { ExpenseItem } from 'shared/ui/ExpenseItem';
-import { CurrencyType } from 'shared/types';
+import { useQuery } from '@tanstack/react-query';
+import { getExpenses } from 'shared/api/expenses';
 
 type Props = BottomTabScreenProps<'Home'>;
 
@@ -49,68 +50,15 @@ const cardsData: {
   },
 ];
 
-const data: {
-  title: string;
-  data: {
-    id: number;
-    avatar?: string | null;
-    name: string;
-    currency: CurrencyType;
-    type: 'subscription' | 'one-time';
-    expenses: number;
-    description: string;
-    created_at: string;
-  }[];
-}[] = [
-  {
-    title: 'Today',
-    data: [
-      {
-        id: 0,
-        avatar:
-          'https://images.ctfassets.net/xjcz23wx147q/iegram9XLv7h3GemB5vUR/0345811de2da23fafc79bd00b8e5f1c6/Max_Rehkopf_200x200.jpeg',
-        name: 'Matthew Billson',
-        currency: 'dollar',
-        type: 'one-time',
-        expenses: 56.19,
-        description: 'Money Transfer',
-        created_at: dayjs('2025-06-09 12:08').toISOString(),
-      },
-    ],
-  },
-  {
-    title: 'Yesterday',
-    data: [
-      {
-        id: 1,
-        avatar:
-          'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/250px-Starbucks_Corporation_Logo_2011.svg.png',
-        name: 'Starbucks',
-        currency: 'dollar',
-        type: 'one-time',
-        expenses: 122.47,
-        description: 'Food',
-        created_at: dayjs('2025-06-08 19:21').toISOString(),
-      },
-      {
-        id: 2,
-        avatar:
-          'https://images.ctfassets.net/4cd45et68cgf/Rx83JoRDMkYNlMC9MKzcB/2b14d5a59fc3937afd3f03191e19502d/Netflix-Symbol.png?w=700&h=456',
-        name: 'Netflix',
-        currency: 'dollar',
-        type: 'subscription',
-        expenses: 13.17,
-        description: 'Entertainment',
-        created_at: dayjs('2025-06-08 08:53').toISOString(),
-      },
-    ],
-  },
-];
-
 export const Home = (props: Props) => {
   const { navigation } = props;
   const insets = useSafeAreaInsets();
   const { theme_value } = useAppStore();
+
+  const { data, refetch, isRefetching } = useQuery({
+    queryKey: ['expenses'],
+    queryFn: () => getExpenses(),
+  });
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -153,7 +101,7 @@ export const Home = (props: Props) => {
 
   return (
     <SectionList
-      sections={data}
+      sections={data ?? []}
       style={[
         styles.main,
         {
@@ -162,6 +110,14 @@ export const Home = (props: Props) => {
           paddingRight: insets.right,
         },
       ]}
+      refreshControl={
+        <RefreshControl
+          colors={[colors[theme_value].accent]}
+          tintColor={colors[theme_value].accent}
+          refreshing={isRefetching}
+          onRefresh={refetch}
+        />
+      }
       contentContainerStyle={{ gap: 4 }}
       ListHeaderComponent={
         <View style={{ gap: 24, marginBottom: 32 }}>
@@ -235,8 +191,16 @@ export const Home = (props: Props) => {
         </View>
       )}
       renderSectionHeader={({ section }) => (
-        <View>
-          <Text>{section.title}</Text>
+        <View
+          style={{
+            paddingHorizontal: 16,
+            backgroundColor: colors[theme_value].background,
+            paddingBottom: 10,
+          }}
+        >
+          <Text variant="medium" size={16}>
+            {section.title}
+          </Text>
         </View>
       )}
     />
