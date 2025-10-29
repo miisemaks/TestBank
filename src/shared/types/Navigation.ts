@@ -4,6 +4,7 @@ import {
   CompositeScreenProps,
   NavigatorScreenParams,
 } from '@react-navigation/native';
+import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 
 export type BottomTabParamList = {
   Home: undefined;
@@ -21,7 +22,7 @@ export type NotificationScreenType =
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<BottomTabParamList>;
-  Notifications: { date: string; type: NotificationScreenType };
+  Notifications: NavigatorScreenParams<NotificationTopParams>;
 };
 
 export type NavigationScreenProps<T extends keyof RootStackParamList> =
@@ -30,5 +31,19 @@ export type NavigationScreenProps<T extends keyof RootStackParamList> =
 export type BottomTabScreenProps<T extends keyof BottomTabParamList> =
   CompositeScreenProps<
     BottomTabNavigationScreenProps<BottomTabParamList, T>,
+    NativeStackScreenProps<RootStackParamList>
+  >;
+
+export type NotificationTopParams = {
+  All: undefined;
+  Payments: undefined;
+  System: undefined;
+  Delivery: undefined;
+  Travel: undefined;
+};
+
+export type NotificationTopScreenProps<T extends keyof NotificationTopParams> =
+  CompositeScreenProps<
+    MaterialTopTabScreenProps<NotificationTopParams, T>,
     NativeStackScreenProps<RootStackParamList>
   >;

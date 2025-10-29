@@ -168,26 +168,22 @@ export const Home = (props: Props) => {
           <ScreenButtons
             onPressTravel={() =>
               navigation.navigate('Notifications', {
-                date: dayjs().toISOString(),
-                type: 'travel',
+                screen: 'Travel',
               })
             }
             onPressDelivery={() =>
               navigation.navigate('Notifications', {
-                date: dayjs().toISOString(),
-                type: 'delivery',
+                screen: 'Delivery',
               })
             }
             onPressBonuses={() =>
               navigation.navigate('Notifications', {
-                date: dayjs().toISOString(),
-                type: 'system',
+                screen: 'System',
               })
             }
             onPressSupport={() =>
               navigation.navigate('Notifications', {
-                date: dayjs().toISOString(),
-                type: 'system',
+                screen: 'System',
               })
             }
           />
