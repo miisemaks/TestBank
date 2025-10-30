@@ -21,7 +21,6 @@ function App() {
       <SafeAreaProvider>
         <StatusBar
           barStyle={theme_value === 'dark' ? 'light-content' : 'dark-content'}
-          // translucent
           backgroundColor={colors[theme_value].background}
         />
         <Navigation />
