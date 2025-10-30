@@ -74,12 +74,13 @@ export const Home = (props: Props) => {
             paddingRight: 16 + insets.right,
           }}
         >
-          <View
+          <TouchableOpacity
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               gap: 12,
             }}
+            onPress={() => {}}
           >
             <IconContainer variant="circle">
               <UserSingle size={16} color={colors[theme_value].foreground} />
@@ -88,7 +89,7 @@ export const Home = (props: Props) => {
             <Text variant="medium" size={16}>
               Charlotte
             </Text>
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity>
             <IconContainer size={40} variant="rounded" transparent>
               <QRCode color={colors[theme_value].foreground} size={20} />

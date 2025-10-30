@@ -5,19 +5,25 @@
  * @format
  */
 
-import { StatusBar, useColorScheme } from 'react-native';
+import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Navigation } from './Navigation';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { client } from 'shared/api/client';
+import { useAppStore } from 'shared/store';
+import { colors } from 'shared/styles/colors';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  const { theme_value } = useAppStore();
 
   return (
     <QueryClientProvider client={client}>
       <SafeAreaProvider>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <StatusBar
+          barStyle={theme_value === 'dark' ? 'light-content' : 'dark-content'}
+          // translucent
+          backgroundColor={colors[theme_value].background}
+        />
         <Navigation />
       </SafeAreaProvider>
     </QueryClientProvider>

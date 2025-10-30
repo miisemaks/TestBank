@@ -12,8 +12,8 @@ type AppState = {
 export const useAppStore = create<AppState>()(
   persist(
     set => ({
-      theme: 'system',
-      theme_value: Appearance.getColorScheme() as 'dark' | 'light',
+      theme: 'dark',
+      theme_value: 'dark',
       setAppTheme: (theme: 'system' | 'dark' | 'light') =>
         set(state => {
           if (theme === 'system') {

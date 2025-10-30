@@ -97,6 +97,7 @@ export const Navigation = () => {
             backgroundColor: colors[theme_value].container,
           },
           headerShadowVisible: false,
+          headerTitleAlign: 'center',
           contentStyle: {
             backgroundColor: colors[theme_value].container,
           },

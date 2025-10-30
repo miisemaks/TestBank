@@ -21,7 +21,7 @@ export const colors: { light: ColorType; dark: ColorType } = {
     textSecondary2: '#B3B3B3',
     textSecondary3: '#F5EDED',
     accent: '#FE5900',
-    container: '#D6D4D4',
+    container: '#f0f0f0',
     danger: '#CC3F02',
     warning: '#FF9332',
     skeleton: '#3D3B3B',
