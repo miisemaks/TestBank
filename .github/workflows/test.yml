@@ -28,7 +28,7 @@ jobs:
         run: npx tsc
 
       - name: ESLint check
-        run: npm eslint
+        run: npm lint
 
       - name: Run tests
-        run: npm jest
+        run: npm run test
